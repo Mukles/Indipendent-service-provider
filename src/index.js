@@ -6,7 +6,7 @@ import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <div className='fdjlaf'>
+  <div className='font-poppins'>
     <Router>
         <App />
       </Router>
