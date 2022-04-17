@@ -1,7 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/index";
-import Fotter from "./components/shared/footer";
+import Login from "./components/Login/login";
+import Register from "./components/Register/register";
+import Services from "./components/services/services";
 import Navbar from "./components/shared/navbar";
 
 const App = () => {
@@ -10,8 +12,10 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<Home />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/register" element={<Register />} />
+        <Route exact path="/services" element={<Services />} />
       </Routes>
-      <Fotter />
     </React.Fragment>
   );
 };

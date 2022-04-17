@@ -4,20 +4,66 @@ const Login = () => {
       <div className="relative container m-auto px-6 text-gray-500 md:px-12 xl:px-40">
         <div className="m-auto md:w-8/12 lg:w-6/12 xl:w-6/12">
           <div className="rounded-xl bg-white shadow-xl">
-            <div className="p-6 sm:p-16">
+            <div className="p-6 sm:p-10">
               <div className="space-y-4">
-                <img
-                  loading="lazy"
-                  src="https://tailus.io/sources/blocks/social/preview/images/icon.svg"
-                  className="w-10"
-                  alt=""
-                  srcset=""
-                />
                 <h2 className="mb-8 text-2xl text-cyan-900 font-bold">
-                  Sign in to unlock the <br /> best of Tailus.
+                  Sign in to your account
                 </h2>
               </div>
-              <div className="mt-16 grid space-y-4">
+              <div class="mt-12">
+                <form>
+                  <div>
+                    <div class="text-sm font-bold text-gray-700 tracking-wide">
+                      Email Address
+                    </div>
+                    <input
+                      class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+                      type=""
+                      placeholder="mike@gmail.com"
+                    />
+                  </div>
+                  <div class="mt-8">
+                    <div class="flex justify-between items-center">
+                      <div class="text-sm font-bold text-gray-700 tracking-wide">
+                        Password
+                      </div>
+                      <div>
+                        <a
+                          href="j"
+                          class="text-xs font-display font-semibold text-indigo-600 hover:text-indigo-800
+                                cursor-pointer"
+                        >
+                          Forgot Password?
+                        </a>
+                      </div>
+                    </div>
+                    <input
+                      class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+                      type=""
+                      placeholder="Enter your password"
+                    />
+                  </div>
+                  <div class="mt-10">
+                    <button
+                      class="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
+                        font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
+                        shadow-lg"
+                    >
+                      Log In
+                    </button>
+                  </div>
+                </form>
+                <div class="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
+                  Don't have an account ?{" "}
+                  <a
+                    href="j"
+                    class="cursor-pointer text-indigo-600 hover:text-indigo-800"
+                  >
+                    Sign up
+                  </a>
+                </div>
+              </div>
+              <div className="mt-10 grid space-y-4">
                 <button
                   className="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 
  hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100"
