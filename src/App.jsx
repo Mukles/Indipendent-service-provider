@@ -1,12 +1,11 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import Blog from "./components/Blog/blog";
 import Home from "./components/index";
 import Login from "./components/Login/login";
 import NotFound from "./components/Notfound/notfound";
 import Register from "./components/Register/register";
-import Services from "./components/services/services";
 import Navbar from "./components/shared/navbar";
-import Required from "./components/shared/Required/required";
 
 const App = () => {
   return (
@@ -16,15 +15,7 @@ const App = () => {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
-        <Route
-          exact
-          path="/services"
-          element={
-            <Required>
-              <Services />
-            </Required>
-          }
-        />
+        <Route exact path="/blog" element={<Blog />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </React.Fragment>
