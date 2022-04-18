@@ -25,13 +25,20 @@ const Login = () => {
     navegate(`${url ? `${url}` : "/"}`);
   };
 
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword, user1, loading1, error1] =
+    useSignInWithEmailAndPassword(auth);
 
   const loginHander = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword();
-      redirect(location?.state?.from.pathname);
+      if (userDetails.email !== "" && userDetails.password !== "") {
+        console.log(userDetails);
+        await signInWithEmailAndPassword(
+          userDetails.email,
+          userDetails.password
+        );
+        redirect(location?.state?.from.pathname);
+      }
     } catch (err) {
       alert(err);
     }
@@ -81,7 +88,7 @@ const Login = () => {
                 </h2>
               </div>
               <div className="mt-12">
-                <form method="post">
+                <div>
                   <div>
                     <div className="text-sm font-bold text-gray-700 tracking-wide">
                       Email Address
@@ -90,7 +97,7 @@ const Login = () => {
                       className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
                       type=""
                       name="email"
-                      onBlur={onBulrHander}
+                      onChange={onBulrHander}
                       placeholder="mike@gmail.com"
                     />
                   </div>
@@ -113,13 +120,13 @@ const Login = () => {
                       className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
                       type=""
                       name="password"
-                      onBlur={onBulrHander}
+                      onChange={onBulrHander}
                       placeholder="Enter your password"
                     />
                   </div>
                   <div className="mt-10">
                     <button
-                      onSubmit={loginHander}
+                      onClick={(e) => loginHander(e)}
                       className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
                         font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
                         shadow-lg"
@@ -127,7 +134,7 @@ const Login = () => {
                       Log In
                     </button>
                   </div>
-                </form>
+                </div>
                 <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
                   Don't have an account ?{" "}
                   <Link

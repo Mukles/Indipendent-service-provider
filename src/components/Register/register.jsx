@@ -68,12 +68,15 @@ const Register = () => {
 
   const onSubmitHander = async (e) => {
     e.preventDefault();
+    console.log(userDetails);
     try {
       if (
         userDetails.email !== "" &&
         userDetails.firstName !== "" &&
-        userDetails.lastName !== ""
+        userDetails.lastName !== "" &&
+        userDetails.password !== ""
       ) {
+        alert();
         await createUserWithEmailAndPassword(
           userDetails.email,
           userDetails.password
@@ -316,7 +319,7 @@ const Register = () => {
                     </div>
                     <input
                       type="text"
-                      onBlur={onBulrHander}
+                      onChange={onBulrHander}
                       required={true}
                       name="firstName"
                       className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
@@ -336,7 +339,7 @@ const Register = () => {
                       type="text"
                       required
                       name="lastName"
-                      onBlur={onBulrHander}
+                      onChange={onBulrHander}
                       className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="Smith"
                     />
@@ -356,7 +359,7 @@ const Register = () => {
                       type="email"
                       name="email"
                       required
-                      onBlur={onBulrHander}
+                      onChange={onBulrHander}
                       className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="johnsmith@example.com"
                     />
@@ -376,7 +379,7 @@ const Register = () => {
                       type="password"
                       required
                       name="password"
-                      onBlur={onBulrHander}
+                      onChange={onBulrHander}
                       className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="************"
                     />
