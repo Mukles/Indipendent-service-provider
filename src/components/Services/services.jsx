@@ -78,9 +78,7 @@ const Services = () => {
                 ))}
               </div>
 
-              <button className="border-2 border-black px-4 py-3">
-                Contact
-              </button>
+              <button className="border-2 border-black px-4 py-3">Buy</button>
             </div>
           ))}
         </div>
