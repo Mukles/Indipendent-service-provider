@@ -1,7 +1,21 @@
+import { signOut } from "firebase/auth";
+import { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase.int";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [user, loading, error] = useAuthState(auth);
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded">
@@ -13,15 +27,46 @@ const Navbar = () => {
           </span>
         </Link>
         <div className="flex md:order-2">
-          <button
-            onClick={() => {
-              navigate("/login");
-            }}
-            type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Login
-          </button>
+          {user?.email ? (
+            <div
+              title="log out"
+              onClick={logout}
+              className="flex space-x-2 items-center cursor-pointer"
+            >
+              {user.photoURL ? (
+                <img
+                  className="w-8 h-8 object-cover rounded-full"
+                  src={user.photoURL}
+                  alt=""
+                  srcset=""
+                />
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              )}
+              <span>{user.email}</span>
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                navigate("/login");
+              }}
+              type="button"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Login
+            </button>
+          )}
           <button
             data-collapse-toggle="mobile-menu-4"
             type="button"
@@ -62,13 +107,13 @@ const Navbar = () => {
         >
           <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
             <li>
-              <a
-                href="#s"
+              <Link
+                to="/"
                 className="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
                 aria-current="page"
               >
                 Home
-              </a>
+              </Link>
             </li>
             <li>
               <a
@@ -79,12 +124,12 @@ const Navbar = () => {
               </a>
             </li>
             <li>
-              <a
-                href="#s"
+              <Link
+                to="/services"
                 className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 "
               >
                 Services
-              </a>
+              </Link>
             </li>
             <li>
               <a

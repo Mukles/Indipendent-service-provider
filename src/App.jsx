@@ -5,6 +5,7 @@ import Login from "./components/Login/login";
 import Register from "./components/Register/register";
 import Services from "./components/services/services";
 import Navbar from "./components/shared/navbar";
+import Required from "./components/shared/Required/required";
 
 const App = () => {
   return (
@@ -14,7 +15,15 @@ const App = () => {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
-        <Route exact path="/services" element={<Services />} />
+        <Route
+          exact
+          path="/services"
+          element={
+            <Required>
+              <Services />
+            </Required>
+          }
+        />
       </Routes>
     </React.Fragment>
   );

@@ -60,17 +60,17 @@ export default function Slider() {
   return (
     <>
       <Swiper
-        speed={10}
+        speed={1000000000000000000}
         onSwiper={setSwiperRef}
         slidesPerView={1}
-        autoplay={true}
+        autoplay={false}
         centeredSlides={true}
         pagination={{
           type: "bullets",
         }}
         navigation={true}
         modules={[Pagination, Navigation, Autoplay]}
-        className="mySwiper h-screen"
+        className="mySwiper h-auto lg:h-screen"
       >
         {sliderContent.map((slider) => (
           <SwiperSlide key={slider.id}>
@@ -79,18 +79,18 @@ export default function Slider() {
                 className="w-full object-cover"
                 src={slider.src}
                 alt=""
-                srcset=""
+                srcSet=""
               />
-              <div className="bg-[#000000c4] absolute space-y-4 top-0 flex-col left-0 w-full h-full text-white flex justify-center items-center">
-                <h1 className="font-bold text-6xl leading-[4rem]">
+              <div className="bg-[#000000c4] absolute space-y-4 lg:space-y-10 top-0 flex-col left-0 w-full h-full text-white flex justify-center items-center">
+                <h1 className="font-bold font-xl lg:text-6xl lg:leading-[4rem]">
                   Make Your Wedding <br /> A Wonderful Story
                 </h1>
-                <p className="text-lg text-center mt-2">
+                <p className="text-sm lg:text-lg text-center mt-2">
                   Quam etiam nunc fusce consectetuer libero tellus facilisis{" "}
                   <br />
                   iaculis tempor senectus arcu
                 </p>
-                <button className="bg-[#D5B69C] hover:bg-[#E3D5C8] transition duration-300 px-10 py-4 text-black">
+                <button className="bg-[#D5B69C] hover:bg-[#E3D5C8] transition duration-300 px-2 py-1 lg:px-10 lg:py-4 text-black">
                   Discover More{" "}
                 </button>
               </div>

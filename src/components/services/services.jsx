@@ -57,8 +57,11 @@ const Services = () => {
           </p>
         </div>
         <div className="servies mt-10 grid lg:grid-cols-3 gap-x-10 gap-y-6 justify-center items-center">
-          {services.map((s) => (
-            <div className="service-1 border-4 border-black px-20 w-72 lg:w-80 lg:px-10 text-center py-5 flex-col flex space-y-4">
+          {services.map((s, i) => (
+            <div
+              key={i}
+              className="service-1 border-4 border-black px-20 w-72 lg:w-80 lg:px-10 text-center py-5 flex-col flex space-y-4"
+            >
               <div className="header">
                 <h1 className="text-3xl pb-3 font-bold border-b-2 border-b-black">
                   {s.name}
@@ -68,8 +71,10 @@ const Services = () => {
               <p className="text-5xl font-light">{s.price}$</p>
 
               <div className="groups flex flex-col space-y-2">
-                {s.service.map((i) => (
-                  <p className="text-sm text-lgiht">{i}</p>
+                {s.service.map((j, idx) => (
+                  <p key={idx} className="text-sm text-lgiht">
+                    {j}
+                  </p>
                 ))}
               </div>
 

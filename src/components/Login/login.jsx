@@ -1,4 +1,73 @@
+import { useState } from "react";
+import {
+  useSignInWithEmailAndPassword,
+  useSignInWithFacebook,
+  useSignInWithGithub,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase.int";
+
 const Login = () => {
+  const location = useLocation();
+  const navegate = useNavigate();
+  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  const [signInWithFacebook] = useSignInWithFacebook(auth);
+  const [signInWithGithub] = useSignInWithGithub(auth);
+
+  const [userDetails, setUserDetails] = useState({
+    email: "",
+    password: "",
+  });
+
+  const redirect = (url) => {
+    console.log(`${url ? `${url}` : "/"}`);
+    navegate(`${url ? `${url}` : "/"}`);
+  };
+
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+
+  const loginHander = async (e) => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword();
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const onGoogleSignIn = async (e) => {
+    try {
+      await signInWithGoogle();
+      navegate("/");
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const onSignInGithub = async () => {
+    try {
+      await signInWithGithub();
+      redirect(location?.state.from.pathname);
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const onSignInFacebook = async () => {
+    try {
+      await signInWithFacebook();
+      navegate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onBulrHander = (event) => {
+    const { name, value } = event.target;
+    setUserDetails({ ...userDetails, [name]: value });
+  };
+
   return (
     <div className="relative py-16 bg-gradient-to-br from-sky-50 to-gray-200">
       <div className="relative container m-auto px-6 text-gray-500 md:px-12 xl:px-40">
@@ -10,27 +79,29 @@ const Login = () => {
                   Sign in to your account
                 </h2>
               </div>
-              <div class="mt-12">
-                <form>
+              <div className="mt-12">
+                <form method="post">
                   <div>
-                    <div class="text-sm font-bold text-gray-700 tracking-wide">
+                    <div className="text-sm font-bold text-gray-700 tracking-wide">
                       Email Address
                     </div>
                     <input
-                      class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+                      className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
                       type=""
+                      name="email"
+                      onBlur={onBulrHander}
                       placeholder="mike@gmail.com"
                     />
                   </div>
-                  <div class="mt-8">
-                    <div class="flex justify-between items-center">
-                      <div class="text-sm font-bold text-gray-700 tracking-wide">
+                  <div className="mt-8">
+                    <div className="flex justify-between items-center">
+                      <div className="text-sm font-bold text-gray-700 tracking-wide">
                         Password
                       </div>
                       <div>
                         <a
                           href="j"
-                          class="text-xs font-display font-semibold text-indigo-600 hover:text-indigo-800
+                          className="text-xs font-display font-semibold text-indigo-600 hover:text-indigo-800
                                 cursor-pointer"
                         >
                           Forgot Password?
@@ -38,14 +109,17 @@ const Login = () => {
                       </div>
                     </div>
                     <input
-                      class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+                      className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
                       type=""
+                      name="password"
+                      onBlur={onBulrHander}
                       placeholder="Enter your password"
                     />
                   </div>
-                  <div class="mt-10">
+                  <div className="mt-10">
                     <button
-                      class="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
+                      onSubmit={loginHander}
+                      className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
                         font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
                         shadow-lg"
                     >
@@ -53,18 +127,19 @@ const Login = () => {
                     </button>
                   </div>
                 </form>
-                <div class="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
+                <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
                   Don't have an account ?{" "}
-                  <a
-                    href="j"
-                    class="cursor-pointer text-indigo-600 hover:text-indigo-800"
+                  <Link
+                    to={`/register`}
+                    className="cursor-pointer text-indigo-600 hover:text-indigo-800"
                   >
                     Sign up
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="mt-10 grid space-y-4">
                 <button
+                  onClick={onGoogleSignIn}
                   className="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 
  hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100"
                 >
@@ -73,7 +148,7 @@ const Login = () => {
                       src="https://tailus.io/sources/blocks/social/preview/images/google.svg"
                       className="absolute left-0 w-5"
                       alt=""
-                      srcset=""
+                      srcSet=""
                     />
                     <span className="block w-max font-semibold tracking-wide text-gray-700 text-sm transition duration-300 group-hover:text-blue-600 sm:text-base">
                       Continue with Google
@@ -81,6 +156,7 @@ const Login = () => {
                   </div>
                 </button>
                 <button
+                  onClick={onSignInGithub}
                   className="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 
  hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100"
                 >
@@ -99,6 +175,7 @@ const Login = () => {
                   </div>
                 </button>
                 <button
+                  onClick={onSignInFacebook}
                   className="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 
                                      hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100"
                 >

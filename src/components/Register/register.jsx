@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useCreateUserWithEmailAndPassword,
+  useSendPasswordResetEmail,
+  useSignInWithFacebook,
+  useSignInWithGithub,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase.int";
 
@@ -8,6 +14,11 @@ const Register = () => {
 
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
+  const [signInWithGoogle] = useSignInWithGoogle(auth);
+  const [signInWithFacebook] = useSignInWithFacebook(auth);
+  const [signInWithGithub] = useSignInWithGithub(auth);
+
+  const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
 
   const [userDetails, setUserDetails] = useState({
     firstName: "",
@@ -16,19 +27,59 @@ const Register = () => {
     password: "",
   });
 
+  const onGoogleSignIn = async (e) => {
+    try {
+      await signInWithGoogle();
+      navegate("/");
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const onSignInGithub = async () => {
+    try {
+      await signInWithGithub();
+      navegate("/");
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const onSignInFacebook = async () => {
+    try {
+      await signInWithFacebook();
+      navegate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const onBulrHander = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
     setUserDetails({ ...userDetails, [name]: value });
   };
-  console.log(userDetails);
 
   const onSubmitHander = async (e) => {
     e.preventDefault();
-    console.log(userDetails);
-    await createUserWithEmailAndPassword(userDetails);
-    alert("Account is Created");
-    navegate("/");
+    try {
+      if (
+        userDetails.email !== "" &&
+        userDetails.firstName !== "" &&
+        userDetails.lastName !== ""
+      ) {
+        await createUserWithEmailAndPassword(
+          userDetails.email,
+          userDetails.password
+        );
+        await sendPasswordResetEmail(userDetails.email);
+        alert("Sent email");
+
+        // navegate("/");
+      }
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (
@@ -243,7 +294,7 @@ const Register = () => {
               />
             </svg>
           </div>
-          <div className="w-full md:w-1/2 py-10 px-5 md:px-10">
+          <form className="w-full md:w-1/2 py-10 px-5 md:px-10">
             <div className="text-center mb-10">
               <h1 className="font-bold text-3xl text-gray-900">REGISTER</h1>
               <p>Enter your information to register</p>
@@ -261,6 +312,7 @@ const Register = () => {
                     <input
                       type="text"
                       onBlur={onBulrHander}
+                      required={true}
                       name="firstName"
                       className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="John"
@@ -277,6 +329,7 @@ const Register = () => {
                     </div>
                     <input
                       type="text"
+                      required
                       name="lastName"
                       onBlur={onBulrHander}
                       className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
@@ -297,6 +350,7 @@ const Register = () => {
                     <input
                       type="email"
                       name="email"
+                      required
                       onBlur={onBulrHander}
                       className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="johnsmith@example.com"
@@ -315,6 +369,7 @@ const Register = () => {
                     </div>
                     <input
                       type="password"
+                      required
                       name="password"
                       onBlur={onBulrHander}
                       className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
@@ -327,14 +382,59 @@ const Register = () => {
                 <div className="w-full px-3 mb-5">
                   <button
                     onClick={(event) => onSubmitHander(event)}
-                    className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+                    className="block relative w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
                   >
                     REGISTER NOW
+                    <svg
+                      className={`${
+                        loading ? "block" : "hidden"
+                      } animate-spin -ml-1 mr-3 h-5 w-5 text-white absolute right-2 top-3`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
                   </button>
                 </div>
               </div>
+              <div className="social media text-center">
+                <h1 className="text-xl font-bold">Register with</h1>
+                <div className="flex space-x-4 mt-5 justify-center">
+                  <span
+                    onClick={() => onGoogleSignIn()}
+                    className="cursor-pointer bg-[#D64E41] p-3 rounded-full"
+                  >
+                    <i className="fa-brands fa-google text-xl text-white"></i>
+                  </span>
+                  <span
+                    onClick={() => onSignInGithub()}
+                    className="cursor-pointer bg-black p-3 rounded-full"
+                  >
+                    <i className="fa-brands fa-github text-xl"></i>
+                  </span>
+                  <span
+                    onClick={() => onSignInFacebook()}
+                    className="cursor-pointer bg-[#183153] rounded-full p-3"
+                  >
+                    <i class="fa-brands fa-facebook-square text-xl"></i>
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
