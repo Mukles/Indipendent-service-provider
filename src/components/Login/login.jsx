@@ -11,6 +11,7 @@ import { auth } from "../../firebase.int";
 const Login = () => {
   const location = useLocation();
   const navegate = useNavigate();
+  console.log(location);
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const [signInWithFacebook] = useSignInWithFacebook(auth);
   const [signInWithGithub] = useSignInWithGithub(auth);
@@ -31,6 +32,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword();
+      redirect(location?.state?.from.pathname);
     } catch (err) {
       alert(err);
     }
@@ -39,6 +41,7 @@ const Login = () => {
   const onGoogleSignIn = async (e) => {
     try {
       await signInWithGoogle();
+      redirect(location?.state?.from.pathname);
       navegate("/");
     } catch (err) {
       alert(err);
@@ -48,7 +51,7 @@ const Login = () => {
   const onSignInGithub = async () => {
     try {
       await signInWithGithub();
-      redirect(location?.state.from.pathname);
+      redirect(location?.state?.from.pathname);
     } catch (err) {
       alert(err);
     }
@@ -57,7 +60,7 @@ const Login = () => {
   const onSignInFacebook = async () => {
     try {
       await signInWithFacebook();
-      navegate("/");
+      redirect(location?.state?.from.pathname);
     } catch (err) {
       console.log(err);
     }
@@ -131,6 +134,7 @@ const Login = () => {
                   Don't have an account ?{" "}
                   <Link
                     to={`/register`}
+                    state={location.state}
                     className="cursor-pointer text-indigo-600 hover:text-indigo-800"
                   >
                     Sign up

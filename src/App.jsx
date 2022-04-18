@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/index";
 import Login from "./components/Login/login";
+import NotFound from "./components/Notfound/notfound";
 import Register from "./components/Register/register";
 import Services from "./components/services/services";
 import Navbar from "./components/shared/navbar";
@@ -24,6 +25,7 @@ const App = () => {
             </Required>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </React.Fragment>
   );

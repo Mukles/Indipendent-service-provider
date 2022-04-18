@@ -10,6 +10,7 @@ const Navbar = () => {
   const logout = async () => {
     try {
       await signOut(auth);
+      navigate("/");
     } catch (err) {
       alert(err);
     }
@@ -38,7 +39,7 @@ const Navbar = () => {
                   className="w-8 h-8 object-cover rounded-full"
                   src={user.photoURL}
                   alt=""
-                  srcset=""
+                  srcSet=""
                 />
               ) : (
                 <svg

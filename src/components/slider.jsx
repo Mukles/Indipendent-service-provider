@@ -60,10 +60,10 @@ export default function Slider() {
   return (
     <>
       <Swiper
-        speed={1000000000000000000}
+        speed={500}
         onSwiper={setSwiperRef}
         slidesPerView={1}
-        autoplay={false}
+        autoplay={true}
         centeredSlides={true}
         pagination={{
           type: "bullets",

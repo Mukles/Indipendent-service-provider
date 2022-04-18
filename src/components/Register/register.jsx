@@ -6,11 +6,17 @@ import {
   useSignInWithGithub,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase.int";
 
 const Register = () => {
   const navegate = useNavigate();
+  const location = useLocation();
+
+  const redirect = (url) => {
+    console.log(`${url ? `${url}` : "/"}`);
+    navegate(`${url ? `${url}` : "/"}`);
+  };
 
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
@@ -30,7 +36,7 @@ const Register = () => {
   const onGoogleSignIn = async (e) => {
     try {
       await signInWithGoogle();
-      navegate("/");
+      redirect(location?.state?.from.pathname);
     } catch (err) {
       alert(err);
     }
@@ -39,7 +45,7 @@ const Register = () => {
   const onSignInGithub = async () => {
     try {
       await signInWithGithub();
-      navegate("/");
+      redirect(location?.state?.from.pathname);
     } catch (err) {
       alert(err);
     }
@@ -48,7 +54,7 @@ const Register = () => {
   const onSignInFacebook = async () => {
     try {
       await signInWithFacebook();
-      navegate("/");
+      redirect(location?.state?.from.pathname);
     } catch (err) {
       console.log(err);
     }
@@ -74,8 +80,7 @@ const Register = () => {
         );
         await sendPasswordResetEmail(userDetails.email);
         alert("Sent email");
-
-        // navegate("/");
+        redirect(location?.state?.from.pathname);
       }
     } catch (err) {
       alert(err);
@@ -394,15 +399,15 @@ const Register = () => {
                       viewBox="0 0 24 24"
                     >
                       <circle
-                        class="opacity-25"
+                        className="opacity-25"
                         cx="12"
                         cy="12"
                         r="10"
                         stroke="currentColor"
-                        stroke-width="4"
+                        strokeWidth="4"
                       ></circle>
                       <path
-                        class="opacity-75"
+                        className="opacity-75"
                         fill="currentColor"
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       ></path>
@@ -429,7 +434,7 @@ const Register = () => {
                     onClick={() => onSignInFacebook()}
                     className="cursor-pointer bg-[#183153] rounded-full p-3"
                   >
-                    <i class="fa-brands fa-facebook-square text-xl"></i>
+                    <i className="fa-brands fa-facebook-square text-xl"></i>
                   </span>
                 </div>
               </div>
