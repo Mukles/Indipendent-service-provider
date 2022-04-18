@@ -55,7 +55,7 @@ const Navbar = () => {
                   />
                 </svg>
               )}
-              <span>{user.email}</span>
+              <span className="hidden lg:block">{user.email}</span>
             </div>
           ) : (
             <button
@@ -117,12 +117,12 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <a
-                href="#s"
+              <Link
+                to="/about"
                 className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
               >
                 About
-              </a>
+              </Link>
             </li>
             <li>
               <Link
@@ -132,14 +132,14 @@ const Navbar = () => {
                 Blog
               </Link>
             </li>
-            <li>
+            {/* {<li>
               <a
                 href="#s"
                 className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
               >
                 Contact
               </a>
-            </li>
+            </li>} */}
           </ul>
         </div>
       </div>

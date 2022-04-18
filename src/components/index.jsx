@@ -1,4 +1,4 @@
-import Services from "./Services/services";
+import Services from "./Services/Services";
 import Fotter from "./shared/footer";
 import Slider from "./slider";
 

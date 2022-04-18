@@ -11,7 +11,6 @@ import { auth } from "../../firebase.int";
 const Login = () => {
   const location = useLocation();
   const navegate = useNavigate();
-  console.log(location);
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const [signInWithFacebook] = useSignInWithFacebook(auth);
   const [signInWithGithub] = useSignInWithGithub(auth);
@@ -42,7 +41,6 @@ const Login = () => {
     try {
       await signInWithGoogle();
       redirect(location?.state?.from.pathname);
-      navegate("/");
     } catch (err) {
       alert(err);
     }
